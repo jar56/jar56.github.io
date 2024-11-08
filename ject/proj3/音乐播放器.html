@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本模板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .content {
+            width: 300px;
+            margin: 0 auto;
+            margin-top: 100px;
+        }
+
+        .list {
+            position: absolute;
+            top: 90px;
+            left: 25px;
+            width: 250px;
+            margin: 0;
+            cursor: pointer;
+            /* background-color: #ccc; */
+            transition: all 0.3s;
+
+        }
+
+        li {
+            height: 30px;
+            cursor: pointer;
+            color: #fff;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .active {
+            color: red;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .lll {
+            width: 300px;
+            height: 210px;
+            overflow: hidden;
+            position: relative;
+            background-color: pink;
+            backdrop-filter: blur(10px);
+            margin-bottom: 10px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+
+
+        }
+
+        .lll_img {
+            width: 300px;
+            height: 180px;
+            background-color: pink;
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+
+        }
+
+        .img {
+            width: 120px;
+            height: 120px;
+            background-image: url(./img/gips1.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            margin: 0 auto;
+            border-radius: 10px;
+        }
+
+        p {
+            height: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px auto;
+            line-height: 30px;
+            text-align: center;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <audio class="audio" controls src="./audio/花落时相遇.m4a"></audio> -->
+    <div class="content">
+        <div class="lll_img">
+            <p>情非得已</p>
+            <div class="img"></div>
+
+        </div>
+        <div class="lll">
+            <ul class="list">
+                <!-- <li></li> -->
+            </ul>
+        </div>
+        <audio class="audio" controls src="https://music.163.com/song/media/outer/url?id=33894312.mp3"></audio>
+    </div>
+
+    <script src="./lyric.js"></script>
+    <script>
+        var list = document.querySelector('.list');
+        var abc = document.querySelector('.abc');
+        var lll = document.querySelector('.lll');
+        //[00:00.000] 作词 : 张国祥
+        var arr = []
+        var timesss = []
+        var isopen = false;
+        var eY = null;
+
+
+
+        function listLyric() {
+            for (var i = 0; i < lyric.length; i++) {
+                var res = lyric[i].match(/\[(?<m>\d{2}):(?<s>\d{2}\.\d{3})\](?<str>.*)/i);
+                arr.push(res);
+                list.innerHTML += '<li>' + res[3] + '</li>';
+                var time = parseInt(res[1]) * 60 + parseFloat(res[2]);
+                timesss.push(time);
+
+            }
+            console.log(timesss);
+            console.log(arr);
+        }
+        listLyric();
+
+        var audio = document.querySelector('audio');
+        function play() {
+
+            var autime = audio.currentTime;
+            // console.log(autime); // 当前播放时间
+
+            // if (autime >= time && autime >= 0) { }
+            // 清除所有高亮
+            var items = document.querySelectorAll('.list li');
+
+            // 检查是否与 timesss 中的时间匹配
+            for (var i = 0; i < timesss.length; i++) {
+                if (Math.abs(autime - timesss[i]) < 0.1) { // 使用一个小的阈值判断相等
+                    items.forEach(function (item) {
+                        item.classList.remove('active');
+                    });
+                    items[i].classList.add('active'); // 高亮对应的歌词
+                    list.style.top = 90 - 30 * i + 'px'; // 移动歌词列表到对应的位置
+                }
+            }
+        }
+        setInterval(play, 1); // 每隔 100ms 调用一次 play 函数
+
+        lll.onmousedown = function () {
+            isopen = true;
+            console.log(isopen)
+
+        }
+        document.onmousemove = function (e) {
+            if (isopen) {
+                if (eY == null) {
+                    eY = e.clientY;
+                }
+                var move = eY - e.clientY;
+                // console.log(move) // 移动的距离
+
+            }
+            var ltop = getComputedStyle(list).top
+            var a = Math.floor(move / 30);
+            console.log(a)
+            list.style.top = parseInt(ltop) - a * 30 + 'px';
+
+        }
+        document.onmouseup = function () {
+            isopen = false;
+            console.log(isopen)
+            eY = null;
+
+        }
+
+
+        setInterval(function () {
+            var qltop = parseFloat(getComputedStyle(list).top)
+            if (qltop > 90) {
+                list.style.top = 90 + 'px';
+            }
+        }, 100)
+
+
+
+    </script>
+</body>
+
+</html>

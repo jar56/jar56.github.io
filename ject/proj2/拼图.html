@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本模板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        .content {
+            width: 320px;
+            height: 320px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+        .imgaaa {
+            width: 200px;
+            height: 200px;
+            background: url('./img/腊肠.jpg') no-repeat;
+            background-size: cover;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+        .img-list {
+            position: relative;
+        }
+
+        li {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            cursor: pointer;
+            background-image: url(./img/腊肠.jpg);
+            transition: all 0.5s;
+        }
+
+        .img1 {
+            /* top: 0; */
+            /* left: 0; */
+            background-position: 0 0;
+        }
+
+        .img2 {
+            /* top: 0; */
+            /* left: 110px; */
+            background-position: -100px 0;
+        }
+
+        .img3 {
+            /* top: 0; */
+            /* left: 220px; */
+            background-position: -200px 0;
+        }
+
+        .img4 {
+            /* top: 110px; */
+            /* left: 0; */
+            background-position: 0 -100px;
+        }
+
+        .img5 {
+            /* top: 110px; */
+            /* left: 110px; */
+            background-position: -100px -100px;
+        }
+
+        .img6 {
+            /* top: 110px; */
+            /* left: 220px; */
+            background-position: -200px -100px;
+        }
+
+        .img7 {
+            /* top: 220px; */
+            /* left: 0; */
+            background-position: 0 -200px;
+        }
+
+        .img8 {
+            /* top: 220px; */
+            /* left: 110px; */
+            background-position: -100px -200px;
+        }
+
+        .img9 {
+            /* top: 220px; */
+            /* left: 220px; */
+            background-position: -200px -200px;
+        }
+
+        .active {
+            box-shadow: 0 0 8px 0 #ff0000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="imgaaa"></div>
+    <div id="app">
+        <div class="content">
+            <ul class="img-list">
+                <li class="img1"></li>
+                <li class="img2"></li>
+                <li class="img3"></li>
+                <li class="img4"></li>
+                <li class="img5"></li>
+                <li class="img6"></li>
+                <li class="img7"></li>
+                <li class="img8"></li>
+                <li class="img9"></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        var img = document.querySelector('.img-list')
+        var i1 = document.querySelector('.img1')
+        var i2 = document.querySelector('.img2')
+        var i3 = document.querySelector('.img3')
+        var i4 = document.querySelector('.img4')
+        var i5 = document.querySelector('.img5')
+        var i6 = document.querySelector('.img6')
+        var i7 = document.querySelector('.img7')
+        var i8 = document.querySelector('.img8')
+        var i9 = document.querySelector('.img9')
+        var lilist = [i1, i2, i3, i4, i5, i6, i7, i8, i9]
+        var arr = []
+        for (var i = 0; i < 9; i++) {
+            arr.push(i)
+        }
+        arr.sort(function () {
+            return Math.random() - 0.5;
+        })
+        console.log(arr)
+
+        lilist.forEach(function (item, index) {
+            var i = arr[index]
+            item.dataset.key = i;
+            item.style.top = Math.floor(i / 3) * 110 + 'px';
+            item.style.left = (i % 3) * 110 + 'px';
+        })
+
+        var onarr = []
+        img.onclick = function (e) {
+            console.log(e.target)
+            onarr.push(e.target)
+            onarr[0].classList.add('active')
+            if (onarr.length == 2) {
+                onarr[1].classList.add('active')
+                var y1 = getComputedStyle(onarr[0]).top
+                var x1 = getComputedStyle(onarr[0]).left
+                var y2 = getComputedStyle(onarr[1]).top
+                var x2 = getComputedStyle(onarr[1]).left
+                onarr[1].style.top = y1
+                onarr[1].style.left = x1
+                onarr[0].style.top = y2
+                onarr[0].style.left = x2
+                onarr = []
+                lilist.forEach(function (item) {
+                    item.classList.remove('active')
+                })
+            }
+            if (i1.style.top == '0px' && i1.style.left == '0px' &&
+                i2.style.top == '0px' && i2.style.left == '110px' &&
+                i3.style.top == '0px' && i3.style.left == '220px' &&
+                i4.style.top == '110px' && i4.style.left == '0px' &&
+                i5.style.top == '110px' && i5.style.left == '110px' &&
+                i6.style.top == '110px' && i6.style.left == '220px' &&
+                i7.style.top == '220px' && i7.style.left == '0px' &&
+                i8.style.top == '220px' && i8.style.left == '110px' &&
+                i9.style.top == '220px' && i9.style.left == '220px') {
+                alert('完成')
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

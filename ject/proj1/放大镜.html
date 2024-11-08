@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本模板</title>
+    <style>
+        .content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 850px;
+            height: 400px;
+            margin: 0 auto;
+            padding: 0;
+
+        }
+
+        .left {
+            width: 400px;
+            height: 400px;
+            background-image: url(./images/素材1.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+
+        .zzc {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255, 165, 0, 0.4);
+            position: absolute;
+            z-index: 999;
+        }
+
+        .right {
+            width: 400px;
+            height: 400px;
+            overflow: hidden;
+            display: none;
+            position: relative;
+
+        }
+
+        .img {
+            width: 1600px;
+            height: 1600px;
+            /* background-size: cover; */
+            position: absolute;
+        }
+
+        /*  */
+        .tabImg {
+            list-style: none;
+            width: 80px;
+            height: 80px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .bottom {
+            width: 850px;
+            margin: 0 auto;
+        }
+
+        .bottom ul {
+            padding: 0;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+        }
+
+        .tab1 {
+            background-image: url(./images/素材1.jpg);
+        }
+
+        .tab2 {
+            background-image: url(./images/素材2.jpg);
+        }
+
+        .tab3 {
+            background-image: url(./images/素材3.jpg);
+        }
+
+        .tab4 {
+            background-image: url(./images/素材4.jpg);
+        }
+
+        .tab5 {
+            background-image: url(./images/素材5.jpg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="left">
+            <div class="zzc"></div>
+        </div>
+        <div class="right">
+            <img class="img" src="./images/素材1.jpg" alt="">
+        </div>
+    </div>
+    <div class="bottom">
+        <ul>
+            <li class="tabImg tab1"></li>
+            <li class="tabImg tab2"></li>
+            <li class="tabImg tab3"></li>
+            <li class="tabImg tab4"></li>
+            <li class="tabImg tab5"></li>
+        </ul>
+    </div>
+
+    <script>
+        var zzc = document.querySelector('.zzc');
+        var img = document.querySelector('.img');
+        var left = document.querySelector('.left');
+        var right = document.querySelector('.right');
+        // 
+        left.onmouseenter = function () {
+            right.style.display = 'block';
+
+        }
+        left.onmousemove = function (e) {
+            var X = e.clientX - left.offsetLeft;
+            var Y = e.clientY - left.offsetTop;
+            // console.log(X, Y);
+            zzc.style.left = (X - 50) + 'px';
+            zzc.style.top = (Y - 50) + 'px';
+            X <= 50? zzc.style.left = 0 + 'px' : '';
+            Y <= 50? zzc.style.top = 0 + 'px' : '';
+            X >= 350 ? zzc.style.left = 300 + 'px' : '';
+            Y >= 350 ? zzc.style.top = 300 + 'px' : '';
+            // 
+            img.style.left = -(X - 50) * 4 + 'px';
+            img.style.top = -(Y - 50) * 4 + 'px';
+            if (X <= 50) {
+                img.style.left = 0 + 'px';
+            }
+            if (Y <= 50) {
+                img.style.top = 0 + 'px';
+            }
+            if (X >= 350) {
+                img.style.left = -1200 + 'px';
+            }
+            if (Y >= 350) {
+                img.style.top = -1200 + 'px';
+            }
+
+        }
+        left.onmouseout = function () {
+            right.style.display = 'none';
+        }
+
+        // 切换图片
+        var Tab1 = document.querySelector('.tab1');
+        var Tab2 = document.querySelector('.tab2');
+        var Tab3 = document.querySelector('.tab3');
+        var Tab4 = document.querySelector('.tab4');
+        var Tab5 = document.querySelector('.tab5');
+        var Tabs = [Tab1, Tab2, Tab3, Tab4, Tab5]
+        Tabs.forEach(function (item, i) {
+            item.onclick = function () {
+                console.log(i + 1);
+                left.style.backgroundImage = "url('./images/素材" + (i + 1) + ".jpg')";
+                img.src = "./images/素材" + (i + 1) + ".jpg";
+            }
+        })
+
+        // Tab1.onclick = function () {
+        //     console.log(1);
+        //     left.style.backgroundImage = "url('./images/素材1.jpg')";
+        //     img.src = "./images/素材1.jpg";
+        // }
+        // Tab2.onclick = function () {
+        //     console.log(2);
+        //     left.style.backgroundImage = "url('./images/素材2.jpg')";
+        //     img.src = "./images/素材2.jpg";
+        // }
+        // Tab3.onclick = function () {
+        //     console.log(3);
+        //     left.style.backgroundImage = "url('./images/素材3.jpg')";
+        //     img.src = "./images/素材3.jpg";
+        // }
+        // Tab4.onclick = function () {
+        //     console.log(4);
+        //     left.style.backgroundImage = "url('./images/素材4.jpg')";
+        //     img.src = "./images/素材4.jpg";
+        // }
+        // Tab5.onclick = function () {
+        //     console.log(5);
+        //     left.style.backgroundImage = "url('./images/素材5.jpg')";
+        //     img.src = "./images/素材5.jpg";
+        // }
+
+    </script>
+</body>
+
+</html>

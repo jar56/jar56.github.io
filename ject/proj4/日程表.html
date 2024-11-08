@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本模板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            box-sizing: border-box;
+        }
+
+        .content {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        .left,
+        .right {
+            width: 150px;
+            height: 200px;
+            border: 1px solid black;
+        }
+
+        .bottom {
+            width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .inp {
+            width: 240px;
+            height: 40px;
+            padding: 5px 10px;
+        }
+
+        .btn {
+            width: 60px;
+            height: 40px;
+        }
+
+        .top {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title {
+            position: absolute;
+            top: 85px;
+            left: 51px;
+            color: #ccc;
+            opacity: .4;
+
+        }
+
+        .box {
+            position: relative;
+        }
+
+        .item {
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 5px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .item:hover {
+            background-color: #ccc;
+        }
+        .right_box .item:hover{
+            background-color: pink;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <h2>日程表</h2>
+        <div class="top">
+            <input class="inp" placeholder="输入想要添加的内容~" type="text">
+            <button class="btn">添加</button>
+        </div>
+        <div class="bottom">
+            <div class="left box">
+                <p class="title">未完成</p>
+                <ul class="left_box"></ul>
+            </div>
+            <div class="right box">
+                <p class="title">已完成</p>
+                <ul class="right_box"></ul>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../jq/jquery-3.7.1.js"></script>
+    <script>
+        var $inp = $('.inp');
+
+
+        $('.btn').click(function () {
+            var val = $inp.val();
+            console.log(val);
+            if (val == '') {
+                alert('内容不能为空');
+            } else {
+                $('.left_box').append('<li class="item">' + val + '</li>');
+                $inp.val('');
+            }
+
+        })
+        $('.left_box').on('click', '.item', function () {
+            console.log(this);
+            // $(this).appendTo('.right_box');
+            $('.right_box').append($(this));
+
+        })
+        $('.right_box').on('click', '.item', function () {
+            console.log(this);
+            $(this).remove();
+        })
+
+
+
+
+
+    </script>
+</body>
+
+</html>

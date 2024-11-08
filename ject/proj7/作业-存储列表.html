@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>基本模板</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            list-style: none;
+        }
+
+        .content {
+            width: 200px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+        p {
+            width: 100px;
+            border: 1px solid #000;
+        }
+
+        input {
+            width: 100px;
+        }
+
+        button {
+            width: 50px;
+            margin: 5px;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="top">
+            <div>
+                <label>Key:</label>
+                <input class="key_inp" type="text">
+            </div>
+            <div>
+                <label>Value:</label>
+                <input class="value_inp" type="text">
+            </div>
+            <div style="display: flex;justify-content: space-evenly;align-items: center;">
+                <button class="add_btn">添加</button>
+                <button class="clear_btn">清空</button>
+            </div>
+        </div>
+        <div class="bottom">
+            <h3>这里有 <span class="count">0</span> items</h3>
+            <ul class="list">
+                <li class="item">
+                    <p class="p_key" style="font-weight: bold;">Key</p>
+                    <p class="p_value" style="font-weight: bold;">Value</p>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+
+    <script>
+        // 分别创建两个input元素用来指定storage的Key与Value
+        // Key与Value都不能为空，或连续的空格
+        // 每次添加数据，右边的tabel都会更新动态显式当前所有的 key 与其对应的 value 值
+        // 页面存在一个用来展示当前storage中存储了多少条键值对的count组件
+
+        var keyinp = document.querySelector('.key_inp');
+        var valueinp = document.querySelector('.value_inp');
+        var addbtn = document.querySelector('.add_btn');
+        var clearbtn = document.querySelector('.clear_btn');
+        var count = document.querySelector('.count');
+        var list = document.querySelector('.list');
+        var str = `
+                <li class="item">
+                    <p class="p_key" style="font-weight: bold;">Key</p>
+                    <p class="p_value" style="font-weight: bold;">Value</p>
+                </li>
+        `
+
+        addbtn.onclick = function () {
+            var kval = keyinp.value;
+            var vval = valueinp.value;
+            if (kval === '' || vval === '') {
+                alert('Key或Value不能为空');
+                return;
+            }
+            localStorage.setItem(kval, vval);
+            xun();
+
+        }
+        clearbtn.onclick = function () {
+            localStorage.clear();
+            list.innerHTML = str;
+            count.innerHTML = '0';
+        }
+        // 渲染
+        function xun() {
+            var newstr = ''
+            for (var i = 0; i < localStorage.length; i++) {
+                var key = localStorage.key(i);
+                var value = localStorage.getItem(key);
+                console.log(key, value);
+                var content = `
+                <li class="item">
+                    <p class="p_key">${key}</p>
+                    <p class="p_value">${value}</p>
+                </li>
+                `
+                newstr += content;
+                count.innerHTML = localStorage.length;
+            }
+            list.innerHTML = str + newstr;
+        }
+        for (var i = 0; i < localStorage.length; i++) {
+            var key = localStorage.key(i);
+            var value = localStorage.getItem(key);
+            console.log(key, value);
+            var content = `
+                <li class="item">
+                    <p class="p_key">${key}</p>
+                    <p class="p_value">${value}</p>
+                </li>
+            `
+            count.innerHTML = localStorage.length;
+            list.innerHTML += content;
+        }
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
